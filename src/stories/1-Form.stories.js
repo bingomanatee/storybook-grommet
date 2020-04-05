@@ -3,6 +3,7 @@ import {action} from '@storybook/addon-actions';
 import {Form, FormField, Box, Button, Heading, Diagram, Text, Grommet, Stack} from 'grommet';
 import metro from './themes/metro.json';
 import BasicForm from './forms/basic/BasicForm';
+import DiagramItem from './utils/DiagramItem'
 import _ from 'lodash';
 
 const forGrommet = (story) => (
@@ -16,11 +17,6 @@ const Dialog = ({children}) => (
     {children}
   </Box>
 )
-
-const diagramBorder = {
-  color: 'rgba(0,0,0,0.2)',
-  width: '2px'
-}
 
 export default {
   title: 'Grommet Form',
@@ -118,7 +114,7 @@ class FormComponent extends Component {
     const {value, errors, hasErrors, phase} = this.state;
     return <>
       <Stack interactiveChild="first" guidingChild="first">
-        <Box pad="large" >
+        <Box pad="large">
           <BasicForm value={value} errors={errors} hasErrors={hasErrors} onSubmit={this.onSubmit} setValue={this.setValue}/>
         </Box>
         {phase === 'processing' ? <Dialog><Heading level="2" weight="bold">Processing</Heading>
@@ -144,21 +140,15 @@ class FormComponent extends Component {
           ]}
         />
         <Box direction="row" gap="large" justify="center">
-          <Box direction="row" gap="large" justify="center" width="9rem" id="diagram-entering" border={diagramBorder}
-               background={phase === 'entering' ? 'neutral-1' : 'light-3'}
-               pad="small" round="2px">
-            <Text weight="bold">Entering</Text>
-          </Box>
-          <Box direction="row" gap="large" justify="center" width="9rem" id="diagram-processing" border={diagramBorder}
-               background={phase === 'processing' ? 'neutral-1' : 'light-3'}
-               pad="small" round="2px">
-            <Text weight="bold">Processing</Text>
-          </Box>
-          <Box direction="row" gap="large" justify="center" width="9rem" id="diagram-complete" border={diagramBorder}
-               background={phase === 'complete' ? 'neutral-1' : 'light-3'}
-               pad="small" round="2px">
-            <Text weight="bold">Complete</Text>
-          </Box>
+          <DiagramItem id="diagram-entering" active={phase === 'entering'}>
+            Entering
+          </DiagramItem>
+          <DiagramItem id="diagram-processing" active={phase === 'processing'}>
+            Processing
+          </DiagramItem>
+          <DiagramItem id="diagram-complete" active={phase === 'complete'}>
+            Complete
+          </DiagramItem>
         </Box>
       </Stack>
     </>
